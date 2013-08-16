@@ -4,6 +4,10 @@ app.AppView = Backbone.View.extend({
     el: '.container',
     template: _.template($('#stock-view-template').html()),
 
+    initialize: function() {
+        this.listenTo(app.Stock, 'change', this.render);
+    },
+
     events: {
         'blur #symbol-field': 'updateStock'
     },
@@ -13,7 +17,9 @@ app.AppView = Backbone.View.extend({
     },
 
     updateStock: function() {
-        this.render();
+        var symbol = $('#symbol-field').val();
+        var stock = app.Stocks.where({Symbol: symbol});
+        app.Stock.set(stock[0].toJSON());
     }
 
 });
