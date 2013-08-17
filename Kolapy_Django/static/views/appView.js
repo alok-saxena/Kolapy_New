@@ -13,13 +13,18 @@ app.AppView = Backbone.View.extend({
     },
 
     render: function() {
-        this.$('.page').html(this.template(app.Stock.toJSON()));
+        var stock = app.Stock
+        this.$('.page').html(this.template(stock.toJSON()));
+        g.updateOptions({
+            file: stock.get('historicalCSV'),
+            labels: ['Date', 'Price']
+        });
     },
 
     updateStock: function() {
         var symbol = $('#symbol-field').val();
-        var stock = app.Stocks.where({Symbol: symbol});
-        app.Stock.set(stock[0].toJSON());
+        app.Stock.url = '/stocks/' + symbol;
+        app.Stock.fetch();
     }
 
 });

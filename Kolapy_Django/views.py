@@ -8,6 +8,6 @@ def home(request):
     return render(request, 'test.html')
 
 
-def stocks(request):
-    data = json.dumps(da.typeahead(''))
-    return HttpResponse(data, content_type='application/json')
+def stocks(request, symbol):
+    data = json.dumps(da.getSymbolData(symbol))
+    return HttpResponse(data[1:-1], content_type='application/json')

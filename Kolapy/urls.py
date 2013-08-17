@@ -7,7 +7,7 @@ from Kolapy_Django import views
 
 urlpatterns = patterns('',
       url(r'^$', views.home),
-      url(r'^stocks$', views.stocks)
+      url(r'^stocks/([A-Z]*)', views.stocks)
     # url(r'^Kolapy/', include('Kolapy.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -4,8 +4,9 @@ var Stock = Backbone.Model.extend({
     defaults:
     {
         Symbol: '',
-        Name: ''
+        Name: '',
+        historicalCSV: ''
     }
 });
 
-app.Stock = new Stock({Symbol: 'AAPL', Name: 'APPLE INC.'});
+app.Stock = new Stock();

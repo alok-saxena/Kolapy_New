@@ -13,33 +13,29 @@ import re
 def dataframe(ticker):
     global db
     collection = db.daily
-    df = pd.DataFrame(list(collection.find({'Symbol' : ticker})))
+    cursor = collection.find({'Symbol': ticker})
+    if not cursor.count():
+        return None
+    df = pd.DataFrame(list(cursor))
     df.index = pd.to_datetime(df['Date'])
     return df
 
 # get full name of company from ticker
 def name(ticker):
     global db
-    collection = db.tickernames
-    return str(collection.find_one({'Symbol' : ticker})['Name'])
+    collection = db.tickers
+    return str(collection.find_one({'Symbol': ticker})['Name'])
 
 # get typeahead options from term
-def typeahead(term):
+def getSymbolData(symbol):
     global db
-    collection = db.tickernames
-    regx = '^' + term + '.*'
-    regx = re.compile(regx, re.IGNORECASE)
-    data = list(collection.find({'Symbol': regx}, {'_id': False}))
+    collection = db.tickers
+    data = list(collection.find({'Symbol': symbol}, {'_id': False}))
     return data
 
-def csv(series, json):
-    if json:
-        output = StringIO.StringIO()
-        series.to_csv(output, sep=',');
-        val = output.getvalue()
-        output.close()
-        return val
-    var_list = []
-    for i in xrange(len(series)):
-        var_list.append(series.index[i].strftime('%Y-%m-%d') + ',' + str(series[i]) + '\\n')
-    return 'Date,Price' + '\\n' + ''.join(var_list)
+def csv(series):
+    output = StringIO.StringIO()
+    series.to_csv(output, sep=',');
+    val = output.getvalue()
+    output.close()
+    return val

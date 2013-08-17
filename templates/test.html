@@ -11,6 +11,7 @@
         <hr />
         <input id="symbol-field" type="text">
         <div class="page"></div>
+        <div id="graph"></div>
 
     </div>
 
@@ -29,6 +30,9 @@
     <script src="{% static 'models/stock.js' %}"></script>
     <script src="{% static 'collections/stocks.js' %}"></script>
     <script src="{% static 'views/appView.js' %}"></script>
+    <script>
+        g = new Dygraph(document.getElementById('graph'), 'Date, Price\n', {});
+    </script>
 
 </body>
 </html>
